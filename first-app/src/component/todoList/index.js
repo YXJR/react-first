@@ -9,7 +9,6 @@ import axios from "axios"
 import "./todoList.scss"
 
 export default class TodoLists extends React.Component {
-  //lists = []
   constructor(props) {
     super(props)
     this.state = {
@@ -20,23 +19,38 @@ export default class TodoLists extends React.Component {
   componentWillMount() {
     const that = this
     axios.get("http://localhost:7001/items").then((res) => {
-      console.log(res.data)
-      that.setState({ lists: [...res.data] })
+      that.setState({ lists: [...res.data.data] })
     })
   }
 
   addTodoItem = (item) => {
     const newTodoItem = {
-      id: this.state.todoItems ? this.state.todoItems.length : 0,
+      id: this.state.lists ? this.state.lists.length : 0,
       value: item,
       done: false,
       delete: false,
     }
-    this.setState({ lists: [...this.state.lists, newTodoItem] })
+    const that = this
+    axios
+      .post("http://localhost:7001/items", {
+        todoItem: newTodoItem,
+      })
+      .then((res) => {
+        that.setState({ lists: [...res.data.data] })
+      })
   }
   deleteTodoItem = (item) => {
-    item.delete = true
-    this.setState({ lists: [...this.state.lists, item] })
+    const that = this
+    axios({
+      method: "delete",
+      baseURL: "http://localhost:7001",
+      url: "/items",
+      data: {
+        id: item.id,
+      },
+    }).then((res) => {
+      that.setState({ lists: [...res.data.data] })
+    })
   }
   render() {
     return (

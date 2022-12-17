@@ -1,6 +1,10 @@
 var express = require("express")
 var app = express()
 
+const bodyParser = require("body-parser")
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "content-type")
@@ -16,6 +20,7 @@ var todoItems = [
   { id: 0, value: "React", done: false, delete: false },
   { id: 1, value: "Vue", done: false, delete: false },
 ]
+
 app.get("/items", function (req, res) {
   res.send({
     code: 1,
@@ -23,6 +28,11 @@ app.get("/items", function (req, res) {
     data: todoItems,
   })
 })
+
+/**
+ *问题：这里需要增加body-parser的包，否则在请求该接口的时候会500
+ */
+
 app.post("/items", function (req, res) {
   if (req.body.todoItem) {
     todoItems = [...todoItems, req.body.todoItem]
@@ -33,6 +43,7 @@ app.post("/items", function (req, res) {
     data: todoItems,
   })
 })
+
 app.delete("/items", function (req, res) {
   if (req.body.id) {
     todoItems.forEach((todoItem) => {
@@ -41,6 +52,7 @@ app.delete("/items", function (req, res) {
       }
     })
   }
+  console.log(req.body)
   res.send({
     code: 1,
     message: "删除成功",
