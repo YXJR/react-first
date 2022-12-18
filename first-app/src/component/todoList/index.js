@@ -11,12 +11,14 @@ import "./todoList.scss"
 export default class TodoLists extends React.Component {
   constructor(props) {
     super(props)
+    this.TodoFormRef = React.createRef()
     this.state = {
       lists: [],
     }
   }
 
   componentWillMount() {
+    //此生命周期中是拿不到ref的值的
     const that = this
     axios.get("http://localhost:7001/items").then((res) => {
       that.setState({ lists: [...res.data.data] })
@@ -24,6 +26,8 @@ export default class TodoLists extends React.Component {
   }
 
   addTodoItem = (item) => {
+    console.log(this.TodoFormRef.current)
+    const FormThis = this.TodoFormRef.current
     const newTodoItem = {
       id: this.state.lists ? this.state.lists.length : 0,
       value: item,
@@ -36,7 +40,9 @@ export default class TodoLists extends React.Component {
         todoItem: newTodoItem,
       })
       .then((res) => {
+        // 问题：在这个时候消除添加按钮的loading,采用什么方式通知
         that.setState({ lists: [...res.data.data] })
+        FormThis.setState({ loading: false })
       })
   }
   deleteTodoItem = (item) => {
@@ -56,7 +62,7 @@ export default class TodoLists extends React.Component {
     return (
       <div className="main">
         <h1>TodoList</h1>
-        <TodoForm addTodoItem={this.addTodoItem} />
+        <TodoForm addTodoItem={this.addTodoItem} ref={this.TodoFormRef} />
         <TodoList
           todoItems={this.state.lists}
           deleteTodoItem={this.deleteTodoItem}

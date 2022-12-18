@@ -44,4 +44,6 @@ export default class TodoForm extends React.Component {
 
 /**
  * 问题1：在ant-design组件Input上绑定ref（ React.createRef() ），是拿不到input的value值得
+ * 问题2：button的loading效果，如何在父组件接口数据加载完毕之后关闭
+ *    解决：在父组件上绑定ref，通过ref拿到子组件实例，然后操作子组件的状态
  */
