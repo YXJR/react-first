@@ -3,13 +3,15 @@
  */
 import React from "react"
 import TodoListItem from "./TodoListItem"
+import { List } from "antd"
+import "./todoList.scss"
 export default class TodoList extends React.Component {
   deleteTodoItem = (item) => {
     this.props.deleteTodoItem(item)
   }
   render() {
     return (
-      <ul>
+      <List loading={this.props.loading}>
         {this.props.todoItems.map((item) => {
           if (item.delete) return
           return (
@@ -20,7 +22,7 @@ export default class TodoList extends React.Component {
             />
           )
         })}
-      </ul>
+      </List>
     )
   }
 }
