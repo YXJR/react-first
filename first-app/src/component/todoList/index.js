@@ -7,7 +7,7 @@ import TodoForm from "./TodoForm"
 import TodoList from "./TodoList"
 import axios from "axios"
 import "./todoList.scss"
-
+import confirms from "../../util/modal.js"
 export default class TodoLists extends React.Component {
   constructor(props) {
     super(props)
@@ -15,12 +15,15 @@ export default class TodoLists extends React.Component {
     this.state = {
       lists: [],
       listLoading: false,
+      isModalOpen: false,
     }
   }
 
   componentWillMount() {
     //此生命周期中是拿不到ref的值的
-
+    this.getTodoList()
+  }
+  getTodoList = () => {
     const that = this
     that.setState({ listLoading: true })
     axios.get("http://localhost:7001/items").then((res) => {
@@ -37,29 +40,37 @@ export default class TodoLists extends React.Component {
       delete: false,
     }
     const that = this
-    that.setState({ listLoading: true })
     axios
       .post("http://localhost:7001/items", {
         todoItem: newTodoItem,
       })
       .then((res) => {
         // 问题：在这个时候消除添加按钮的loading,采用什么方式通知
-        that.setState({ lists: [...res.data.data] })
+
         FormThis.setState({ loading: false })
-        that.setState({ listLoading: false })
+        that.getTodoList()
       })
   }
   deleteTodoItem = (item) => {
     const that = this
-    axios({
-      method: "delete",
-      baseURL: "http://localhost:7001",
-      url: "/items",
-      data: {
-        id: item.id,
+    confirms({
+      text: "确定要删除掉该条待办事项吗？",
+      onOkHook: () => {
+        console.log("onOk")
+        axios({
+          method: "delete",
+          baseURL: "http://localhost:7001",
+          url: "/items",
+          data: {
+            id: item.id,
+          },
+        }).then((res) => {
+          that.getTodoList()
+        })
       },
-    }).then((res) => {
-      that.setState({ lists: [...res.data.data] })
+      onCancelHook: () => {
+        console.log("onCancel")
+      },
     })
   }
   render() {

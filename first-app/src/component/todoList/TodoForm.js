@@ -9,15 +9,15 @@ import "./todoList.scss"
 export default class TodoForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { loading: false }
-    this.inputValue = ""
+    this.state = { loading: false, inputValue: "" }
   }
   inputValueChange = (event) => {
-    this.inputValue = event.target.value
+    this.setState({ inputValue: event.target.value })
   }
   addTodoItem = () => {
     this.setState({ loading: true })
-    this.props.addTodoItem(this.inputValue)
+    this.props.addTodoItem(this.state.inputValue)
+    this.setState({ inputValue: "" })
   }
   render() {
     return (
