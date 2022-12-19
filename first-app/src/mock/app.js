@@ -1,7 +1,7 @@
 var express = require("express")
 var app = express()
 var todoList = require("./routes/todoList.js")
-
+var articleRouter = require("./routes/articles")
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -18,7 +18,7 @@ app.all("*", function (req, res, next) {
 })
 
 app.use(todoList)
-
+app.use(articleRouter)
 app.listen("7001", function () {
   console.log("app启动了")
 })
