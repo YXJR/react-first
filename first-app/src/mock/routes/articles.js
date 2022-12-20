@@ -18,6 +18,7 @@ db.defaults({
   ],
 }).write()
 
+//查询列表和搜索 接口
 articleRouter.get("/articles", function (req, res) {
   if (req.query.search_text) {
     console.log(req.query.search_text)
@@ -35,6 +36,7 @@ articleRouter.get("/articles", function (req, res) {
   }
 })
 
+//新增文章
 articleRouter.post("/articles", function (req, res) {
   const article = {
     id: db.get("articles").size().value() + 1,
@@ -48,6 +50,17 @@ articleRouter.post("/articles", function (req, res) {
     message: "数据获取成功",
     data: article,
   })
+})
+
+//获取文章详情
+articleRouter.get("/articles/:id", function (req, res, next) {
+  const article = db
+    .get("articles")
+    .find({
+      id: parseInt(req.params.id),
+    })
+    .value()
+  res.send(article)
 })
 
 module.exports = articleRouter
