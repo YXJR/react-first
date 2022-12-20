@@ -15,11 +15,23 @@ class Articles extends React.Component {
       searchText: "",
     }
   }
+
+  componentWillMount() {
+    this.getArticles()
+  }
+
   getArticles = () => {
-    //axios.get("http://localhost:7001/articles")
+    axios.get("http://localhost:7001/articles").then((res) => {
+      this.setState({ articles: res.data.data })
+    })
   }
   inputSearch = (inputValue) => {
     //TODO: 调用搜索接口
+    axios
+      .get(`http://localhost:7001/articles?search_text=${inputValue}`)
+      .then((res) => {
+        console.log(res.data.data)
+      })
   }
   render() {
     return (

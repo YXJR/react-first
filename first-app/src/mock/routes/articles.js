@@ -18,19 +18,24 @@ db.defaults({
   ],
 }).write()
 
-articleRouter.get("/articles", function (res, req) {
-  if (res.query.search_text) {
+articleRouter.get("/articles", function (req, res) {
+  if (req.query.search_text) {
+    console.log(req.query.search_text)
     const articles = db
       .get("articles")
       .find({ content: req.query.search_text })
       .value()
     res.send(articles)
   } else {
-    res.send(db.get("articles"))
+    res.send({
+      code: 1,
+      message: "数据获取成功",
+      data: db.get("articles"),
+    })
   }
 })
 
-articleRouter.post("/articles", function (res, req) {
+articleRouter.post("/articles", function (req, res) {
   const article = {
     id: db.get("articles").size().value() + 1,
     created_at: moment().format("YYYY-MM-DD HH:mm:ss").toString(),
@@ -38,7 +43,11 @@ articleRouter.post("/articles", function (res, req) {
     ...req.body,
   }
   db.get("articles").push(article).write()
-  res.send(article)
+  res.send({
+    code: 1,
+    message: "数据获取成功",
+    data: article,
+  })
 })
 
 module.exports = articleRouter
