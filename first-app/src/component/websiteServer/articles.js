@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import { Avatar, List, Space, Input } from "antd"
 import "./index.scss"
 import axios from "axios"
@@ -26,7 +27,6 @@ class Articles extends React.Component {
     })
   }
   inputSearch = (inputValue) => {
-    //TODO: 调用搜索接口
     axios
       .get(`http://localhost:7001/articles?search_text=${inputValue}`)
       .then((res) => {
@@ -47,15 +47,17 @@ class Articles extends React.Component {
           {this.state.articles.length
             ? this.state.articles.map((article) => {
                 return (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar={
-                        <Avatar src="https://joeschmoe.io/api/v1/random" />
-                      }
-                      title={<a href="https://ant.design">{article.title}</a>}
-                      description={article.subtitle}
-                    ></List.Item.Meta>
-                  </List.Item>
+                  <Link to={{ pathname: `/articles/${article.id}` }}>
+                    <List.Item>
+                      <List.Item.Meta
+                        avatar={
+                          <Avatar src="https://joeschmoe.io/api/v1/random" />
+                        }
+                        title={article.title}
+                        description={article.subtitle}
+                      ></List.Item.Meta>
+                    </List.Item>
+                  </Link>
                 )
               })
             : null}
