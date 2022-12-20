@@ -1,12 +1,12 @@
 var express = require("express")
 var articleRouter = express.Router()
 const moment = require("moment")
-const lowdb = require("lowdb")
+const low = require("lowdb")
 const FileSync = require("lowdb/adapters/FileSync")
-const adapter = FileSync("../data/articles.json")
-const db = lowdb(adapter)
+const adapter = new FileSync("articles.json")
+const db = low(adapter)
 
-db.default({
+db.defaults({
   articles: [
     {
       id: "1",
@@ -40,4 +40,5 @@ articleRouter.post("/articles", function (res, req) {
   db.get("articles").push(article).write()
   res.send(article)
 })
+
 module.exports = articleRouter
