@@ -2,6 +2,7 @@ var express = require("express")
 var app = express()
 var todoList = require("./routes/todoList.js")
 var articleRouter = require("./routes/articles")
+
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

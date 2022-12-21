@@ -7,3 +7,32 @@
 .ant-list-item-meta-avatar{
     margin-top:20px;
 }
+.magin-bottom-8{
+    margin-bottom:8px;
+}
+.magin-bottom-16{
+    margin-bottom:16px;
+}
+.margin-right-8{
+    margin-right:8px;
+}
+.detail{
+    padding:100px;
+    border:1px solid red;
+    &-title{
+        @extend .magin-bottom-8;
+        font-size: 20px;
+        color:#333;
+        font-weight: bold;   
+    }
+    &-time{
+        @extend .magin-bottom-16;
+        font-size: 12px;
+        color:#999;
+        
+    }
+    &-subtitle{
+        font-size: 16px;
+        color:#666;
+    }
+}

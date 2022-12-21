@@ -22,11 +22,11 @@ db.defaults({
 articleRouter.get("/articles", function (req, res) {
   if (req.query.search_text) {
     console.log(req.query.search_text)
-    const articles = db
+    const article = db
       .get("articles")
-      .find({ content: req.query.search_text })
+      .find({ title: req.query.search_text })
       .value()
-    res.send(articles)
+    res.send(article)
   } else {
     res.send({
       code: 1,
@@ -53,14 +53,32 @@ articleRouter.post("/articles", function (req, res) {
 })
 
 //获取文章详情
-articleRouter.get("/articles/:id", function (req, res, next) {
+articleRouter.get("/articles/:id", function (req, res) {
   const article = db
     .get("articles")
     .find({
-      id: parseInt(req.params.id),
+      id: req.params.id,
     })
     .value()
+
   res.send(article)
+})
+
+//文章评论
+articleRouter.post("/articles/:id/comment", function (req, res) {
+  let id = req.params.id
+  const comment = req.body.comment
+  const article = db.get("articles").find({ id: id })
+  const comments = article.value()["comments"]
+    ? article.value()["comments"]
+    : []
+  comments.push(comment)
+  article.assign({ comments }).write()
+  res.send({
+    code: 1,
+    message: "数据获取成功",
+    data: article,
+  })
 })
 
 module.exports = articleRouter

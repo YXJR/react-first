@@ -7,12 +7,7 @@ class Articles extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      articles: [
-        {
-          title: "ant-design",
-          subtitle: "简介",
-        },
-      ],
+      articles: [],
       searchText: "",
     }
   }
@@ -30,7 +25,9 @@ class Articles extends React.Component {
     axios
       .get(`http://localhost:7001/articles?search_text=${inputValue}`)
       .then((res) => {
-        console.log(res.data.data)
+        if (res.data.data) {
+          this.setState({ articles: res.data.data })
+        }
       })
   }
   render() {
@@ -47,7 +44,10 @@ class Articles extends React.Component {
           {this.state.articles.length
             ? this.state.articles.map((article) => {
                 return (
-                  <Link to={{ pathname: `/articles/${article.id}` }}>
+                  <Link
+                    to={{ pathname: `/articles/${article.id}` }}
+                    key={article.id}
+                  >
                     <List.Item>
                       <List.Item.Meta
                         avatar={
