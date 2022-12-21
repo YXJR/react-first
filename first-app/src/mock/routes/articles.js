@@ -72,8 +72,11 @@ articleRouter.post("/articles/:id/comment", function (req, res) {
   const comments = article.value()["comments"]
     ? article.value()["comments"]
     : []
-  comments.push(comment)
-  article.assign({ comments }).write()
+  if (comment) {
+    comments.push(comment)
+    article.assign({ comments }).write()
+  }
+
   res.send({
     code: 1,
     message: "数据获取成功",

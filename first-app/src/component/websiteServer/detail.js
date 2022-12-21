@@ -3,7 +3,7 @@ import { message, Space } from "antd"
 import "./index.scss"
 import { useParams } from "react-router-dom"
 import axios from "axios"
-
+import Comment from "./comment.js"
 function ArticleDetail() {
   const { id } = useParams()
   const [detail, setDetail] = React.useState({})
@@ -37,6 +37,7 @@ function ArticleDetail() {
         </Space>
       </div>
       <div className="detail-subtitle">{detail.subtitle}</div>
+      <Comment id={id} />
     </div>
   )
 }
