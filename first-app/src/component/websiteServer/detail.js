@@ -1,10 +1,12 @@
 import React from "react"
 import { message, Space } from "antd"
+import { FormOutlined } from "@ant-design/icons"
 import "./index.scss"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import axios from "axios"
 import Comment from "./comment.js"
-function ArticleDetail() {
+
+function ArticleDetail(props) {
   const { id } = useParams()
   const [detail, setDetail] = React.useState({})
   /**
@@ -23,9 +25,15 @@ function ArticleDetail() {
         message.error(`获取失败`)
       })
   }, [])
+  const toEdit = () => {}
   return (
     <div className="detail">
-      <div className="detail-title">{detail.title}</div>
+      <div className="detail-title">
+        <span className="margin-right-8"> {detail.title}</span>
+        <Link to={{ pathname: `/articles/${id}/edit` }}>
+          <FormOutlined onClick={toEdit} />
+        </Link>
+      </div>
       <div className="detail-time">
         <Space>
           <span className="detail-time-create">

@@ -83,5 +83,13 @@ articleRouter.post("/articles/:id/comment", function (req, res) {
     data: article,
   })
 })
+//文章编辑接口
+articleRouter.patch("/articles/:id/edit", function (req, res) {
+  let id = req.params.id
+  let content = req.body.content
+  const article = db.get("articles").find({ id: id })
+  article.assign({ content: content })
+  res.send(article)
+})
 
 module.exports = articleRouter

@@ -1,10 +1,13 @@
+$ColorTitle:#333;
+$ColorSubtitle:#666;
+$ColorContent:#999;
+$FontSizeTitle:"20px";
 .main{
     padding-top:50px;
     width:700px;
     margin:0 auto;
    
 }
-
 .ant-list-item-meta-avatar{
    @extend .margin-top-20
 }
@@ -29,14 +32,27 @@
 .margin-right-8{
     margin-right:8px;
 }
+.colorTitle{
+    color:$ColorTitle;
+}
+.fontSize{
+    font-size: $FontSizeTitle;
+}
+.title{
+    @extend .magin-bottom-8;
+    @extend .colorTitle;
+    @extend .fontSize;
+    font-weight: bold;
+}
+.subtitle{
+    font-size: 16px;
+        color:#666;
+}
 .detail{
     padding:100px;
     border:1px solid red;
     &-title{
-        @extend .magin-bottom-8;
-        font-size: 20px;
-        color:#333;
-        font-weight: bold;   
+        @extend .title; 
     }
     &-time{
         @extend .magin-bottom-16;
@@ -45,8 +61,7 @@
         
     }
     &-subtitle{
-        font-size: 16px;
-        color:#666;
+        @extend .subtitle;
     }
 }
 .comment{

@@ -59,9 +59,9 @@ export default function Comment(props) {
       </Button>
       <List loadMore={loadMore}>
         {comments.length
-          ? comments.map((comment) => {
+          ? comments.map((comment, index) => {
               return comment ? (
-                <List.Item key={comment}>{comment}</List.Item>
+                <List.Item key={index}>{comment}</List.Item>
               ) : null
             })
           : null}

@@ -13,8 +13,6 @@ class Articles extends React.Component {
   }
 
   componentWillMount() {
-    const location = History.Location
-    console.log(location)
     this.getArticles()
   }
 
