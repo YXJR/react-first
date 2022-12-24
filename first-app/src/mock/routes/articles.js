@@ -84,12 +84,22 @@ articleRouter.post("/articles/:id/comment", function (req, res) {
   })
 })
 //文章编辑接口
-articleRouter.patch("/articles/:id/edit", function (req, res) {
+articleRouter.patch("/articles/:id", function (req, res) {
   let id = req.params.id
   let content = req.body.content
+
   const article = db.get("articles").find({ id: id })
-  article.assign({ content: content })
-  res.send(article)
+  article
+    .assign({
+      content: content,
+      update_at: moment().format("YYYY-MM-DD HH:mm:ss").toString(),
+    })
+    .write()
+  res.send({
+    code: 1,
+    message: "编辑成功",
+    data: article,
+  })
 })
 
 module.exports = articleRouter

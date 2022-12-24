@@ -1,11 +1,12 @@
 import React from "react"
-import { Input, Button } from "antd"
+import { Input, Button, message } from "antd"
 import axios from "axios"
-import { useParams } from "react-router-dom"
+import { useParams, redirect } from "react-router-dom"
 import "./index.scss"
 
 export default function ArticleEdit(props) {
   const [article, setArticle] = React.useState({})
+  const [content, setContent] = React.useState("")
   const { id } = useParams()
 
   React.useEffect(() => {
@@ -18,18 +19,24 @@ export default function ArticleEdit(props) {
       setArticle(() => {
         return res.data
       })
+      setContent(() => {
+        return res.data.content
+      })
     })
   }
 
   const editArticle = () => {
     axios({
-      baseURL: "http://localhost:7001",
       method: "patch",
-      url: `/articles/${id}/edit`,
+      url: `http://localhost:7001/articles/${id}`,
       data: {
-        content: article.content,
+        content: content,
       },
-    }).then()
+    }).then((res) => {
+      message.success("编辑成功")
+      getArticleDetail()
+      redirect("/")
+    })
   }
 
   return (
@@ -37,12 +44,28 @@ export default function ArticleEdit(props) {
       <div className="magin-bottom-8 ">
         <div className="title">{article.title}</div>
         <div className="subtitle">
-          <span> {article.created_at}</span>
-          <span> {article.update_at}</span>
+          <span className="margin-right-16">
+            创建时间: {article.created_at}
+          </span>
+          <span>更新时间: {article.update_at}</span>
         </div>
       </div>
       <Input.TextArea
-        value={article.content}
+        /**
+         *问题：这里不能直接绑定article.content，如果直接绑定，allowClear则不能点击图标清除文本内容
+          解决：借助content字段转化
+         */
+        value={content}
+        allowClear
+        /**
+         * 问题：删除onChange方法，文本不能进行输入
+         */
+        onChange={(e) => {
+          let content = e.target.value
+          setContent(() => {
+            return content
+          })
+        }}
         placeholder="请输入文章内容"
         autoSize={{
           minRows: 6,

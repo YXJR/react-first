@@ -10,7 +10,10 @@ app.use(bodyParser.json())
 app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "content-type")
-  res.header("Access-Control-Allow-Methods", "DELETE,PUT,POST,GET,OPTIONS")
+  res.header(
+    "Access-Control-Allow-Methods",
+    "DELETE,PUT,POST,GET,OPTIONS,PATCH"
+  )
   if (req.method.toLowerCase() == "options") {
     res.send(200)
   } else {
