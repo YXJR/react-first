@@ -14,6 +14,7 @@ export default function ArticleEdit(props) {
   }, [])
 
   const getArticleDetail = () => {
+    console.log(`1`)
     axios.get(`http://localhost:7001/articles/${id}`).then((res) => {
       setArticle(() => {
         return res.data
