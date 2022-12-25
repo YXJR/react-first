@@ -27,6 +27,8 @@ class Articles extends React.Component {
       .then((res) => {
         if (res.data.data) {
           this.setState({ articles: res.data.data })
+        } else {
+          this.setState({ articles: [] })
         }
       })
   }

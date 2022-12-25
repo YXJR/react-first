@@ -1,23 +1,32 @@
 import React from "react"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import Articles from "./articles"
 import ArticleDetail from "./detail.js"
 import ArticleEdit from "./eidt.js"
-const WebsitesRoutes = (props) => (
-  <Router>
-    <Routes>
-      <Route path="/" element={<Articles />}></Route>
-      <Route path="/articles" element={<Articles />}></Route>
-      <Route path="/articles/:id" element={<ArticleDetail />}></Route>
-      <Route
-        path="/articles/:id/edit"
-        element={<ArticleEdit />}
-        exact
-        replace
-      ></Route>
-    </Routes>
-  </Router>
-)
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Articles />,
+    children: [],
+  },
+  {
+    path: "/articles",
+    element: <Articles />,
+    children: [],
+  },
+  {
+    path: "/articles/:id",
+    element: <ArticleDetail />,
+    children: [],
+  },
+  {
+    path: "/articles/:id/edit",
+    element: <ArticleEdit />,
+    children: [],
+  },
+])
+const WebsitesRoutes = () => <RouterProvider router={router} />
 
 export default WebsitesRoutes

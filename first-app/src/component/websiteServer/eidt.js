@@ -1,20 +1,21 @@
 import React from "react"
 import { Input, Button, message } from "antd"
 import axios from "axios"
-import { useParams, redirect } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
+
 import "./index.scss"
 
 export default function ArticleEdit(props) {
   const [article, setArticle] = React.useState({})
   const [content, setContent] = React.useState("")
   const { id } = useParams()
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     getArticleDetail()
   }, [])
 
   const getArticleDetail = () => {
-    console.log(`1`)
     axios.get(`http://localhost:7001/articles/${id}`).then((res) => {
       setArticle(() => {
         return res.data
@@ -33,9 +34,14 @@ export default function ArticleEdit(props) {
         content: content,
       },
     }).then((res) => {
-      message.success("编辑成功")
+      message.success({
+        content: "编辑成功",
+        duration: 2,
+        onClose: () => {
+          navigate("/")
+        },
+      })
       getArticleDetail()
-      redirect("/")
     })
   }
 

@@ -21,12 +21,15 @@ db.defaults({
 //查询列表和搜索 接口
 articleRouter.get("/articles", function (req, res) {
   if (req.query.search_text) {
-    console.log(req.query.search_text)
     const article = db
       .get("articles")
       .find({ title: req.query.search_text })
       .value()
-    res.send(article)
+    res.send({
+      code: 1,
+      message: "数据获取成功",
+      data: article,
+    })
   } else {
     res.send({
       code: 1,

@@ -5,7 +5,7 @@
       "title": "React开发",
       "subtitle": "技术栈React + ant-design + express + axios + scss",
       "created_at": "2022-12-19 21:20:00",
-      "update_at": "2022-12-24 21:23:15",
+      "update_at": "2022-12-25 14:25:04",
       "comments": [
         null,
         null,
@@ -45,7 +45,7 @@
         "真香啊！",
         "快速入门首选！"
       ],
-      "content": "react是一个用于构建用户界面的javascript库，核心在视图层SSS"
+      "content": "react是一个用于构建用户界面的javascript库，核心在视图层SS"
     }
   ]
 }
