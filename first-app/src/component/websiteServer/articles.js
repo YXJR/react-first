@@ -1,8 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Avatar, List, Space, Input } from "antd"
+import { Avatar, List, Space, Input, Button } from "antd"
 import "./index.scss"
 import axios from "axios"
+
 class Articles extends React.Component {
   constructor(props) {
     super(props)
@@ -41,6 +42,9 @@ class Articles extends React.Component {
             allowClear
             onSearch={this.inputSearch}
           />
+          <Link to={{ pathname: "/articles/add" }}>
+            <Button type="primary">新增</Button>
+          </Link>
         </Space>
         <List bordered style={{ marginTop: "20px" }} size="small">
           {this.state.articles.length

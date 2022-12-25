@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Articles from "./articles"
 import ArticleDetail from "./detail.js"
 import ArticleEdit from "./eidt.js"
+import ArticlesAdd from "./add.js"
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,11 @@ const router = createBrowserRouter([
   {
     path: "/articles",
     element: <Articles />,
+    children: [],
+  },
+  {
+    path: "/articles/add",
+    element: <ArticlesAdd />,
     children: [],
   },
   {
