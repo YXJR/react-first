@@ -50,7 +50,7 @@ articleRouter.post("/articles", function (req, res) {
   db.get("articles").push(article).write()
   res.send({
     code: 1,
-    message: "数据获取成功",
+    message: "新增成功",
     data: article,
   })
 })
