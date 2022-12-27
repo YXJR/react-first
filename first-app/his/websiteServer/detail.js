@@ -16,15 +16,17 @@ function ArticleDetail(props) {
     axios
       .get(`http://localhost:7001/articles/${id}`)
       .then((res) => {
+        let data = res.data.data
+        console.log(data)
         setDetail(() => {
-          return res.data
+          return data
         })
       })
       .catch((e) => {
         // message.error(e.message)
         message.error(`获取失败`)
       })
-  }, [])
+  }, [id])
   const toEdit = () => {}
   return (
     <div className="detail">

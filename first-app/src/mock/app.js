@@ -15,7 +15,10 @@ app.all("*", function (req, res, next) {
     "DELETE,PUT,POST,GET,OPTIONS,PATCH"
   )
   if (req.method.toLowerCase() == "options") {
-    res.send(200)
+    res.send({
+      code: 200,
+      message: "OPTION",
+    })
   } else {
     next()
   }

@@ -64,17 +64,19 @@ articleRouter.get("/articles/:id", function (req, res) {
     })
     .value()
 
-  res.send(article)
+  res.send({
+    code: 1,
+    message: "获取成功",
+    data: article,
+  })
 })
 
 //文章评论
 articleRouter.post("/articles/:id/comment", function (req, res) {
   let id = req.params.id
   const comment = req.body.comment
-  const article = db.get("articles").find({ id: id })
-  const comments = article.value()["comments"]
-    ? article.value()["comments"]
-    : []
+  const article = db.get("articles").find({ id: id }).value()
+  const comments = article["comments"] ? article.value()["comments"] : []
   if (comment) {
     comments.push(comment)
     article.assign({ comments }).write()
