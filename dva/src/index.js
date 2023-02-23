@@ -14,6 +14,15 @@ app.model({
       return { number: state.number + 1 }
     },
   },
+  effects: {
+    *asyncAdd(action, { call, put }) {
+      //动作 sagaEffects
+      console.log("action", action)
+      yield call(delay, 1000)
+      //如果在effect里派发动作，如果是派发给自己的模型的话，不需要加namespace
+      yield put({ type: "add" })
+    },
+  },
 })
 app.model({
   namespace: "counter1", // 命名空间
@@ -59,3 +68,9 @@ app.router(() => (
   </div>
 ))
 app.start("#root")
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => {}, 1000)
+  })
+}
