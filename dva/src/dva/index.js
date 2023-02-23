@@ -5,13 +5,18 @@ import { createStore, combineReducers, applyMiddleware } from "redux"
 import createSagaMiddleware from "@redux-saga/core"
 import prefixNamespace from "./prefixNamespace"
 import * as sagaEffects from "redux-saga/effects"
-function dva() {
+
+import { createHashHistory } from "./router.js"
+let history
+
+function dva(options) {
   const app = {
     _models: [],
     router,
     _router: null,
     start,
   }
+  history = options.history || createHashHistory()
   let initialReducers = {}
   function model(model) {
     let prefixedModel = prefixNamespace(model)
@@ -34,7 +39,7 @@ function dva() {
     const sagaMiddleware = createSagaMiddleware()
     let store = applyMiddleware(sagaMiddleware)(createStore)(rootReducer)
     ReactDOM.render(
-      <Provider store={store}> {app._router()}</Provider>,
+      <Provider store={store}> {app._router(history)}</Provider>,
       document.querySelector(selector)
     )
     function getSagas(app) {

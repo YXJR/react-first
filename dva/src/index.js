@@ -1,8 +1,10 @@
 // dva完整版使用
 import React from "react"
-import dva, { connect } from "dva"
-const app = dva()
+import dva, { connect } from "dva"t
+import { Router, Link, Route, rouerRedux } from "dva/router"
 
+const app = dva()
+let { ConnectedRouter, push } = routerRedux
 //定义一个模型
 //let reducer = combineReducers({ counter })
 app.model({
@@ -21,6 +23,9 @@ app.model({
       yield call(delay, 1000)
       //如果在effect里派发动作，如果是派发给自己的模型的话，不需要加namespace
       yield put({ type: "add" })
+    },
+    *goto({ payload }, { put }) {
+      yield put(push(payload))
     },
   },
 })
@@ -61,11 +66,23 @@ const ConnectedCounter = connect(mapStateToProps)(Counter)
 const ConnectedCounter1 = connect((state) => state.counter1)(Counter1)
 
 //定义路由规则
-app.router(() => (
-  <div>
-    <ConnectedCounter />
-    <ConnectedCounter1 />
-  </div>
+app.router((api) => (
+  <ConnectedRouter history={api.history}>
+    <ul>
+      <li>
+        <Link to="counter1">Counter1</Link>
+      </li>
+      <li>
+        <Link to="counter2">Counter2</Link>
+      </li>
+      <Route path="/counter" component={ConnectedCounter} exact={true}></Route>
+      <Route
+        path="/counter1"
+        component={ConnectedCounter1}
+        exact={true}
+      ></Route>
+    </ul>
+  </ConnectedRouter>
 ))
 app.start("#root")
 
