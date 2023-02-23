@@ -2,12 +2,12 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import reportWebVitals from "./reportWebVitals"
 //import TodoLists from "./component/todoList/index"
-import WebsitesRoutes from "./component/websiteServer/index"
+//import WebsitesRoutes from "./component/websiteServer/index"
+import Text from "./pages/Text.js"
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
   <React.StrictMode>
-    {/* <TodoLists /> */}
-    <WebsitesRoutes />
+    <Text></Text>
   </React.StrictMode>
 )
 

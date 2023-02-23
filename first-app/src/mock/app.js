@@ -1,4 +1,6 @@
 var express = require("express")
+var createError = require("http-errors")
+var session = require("express-session")
 var app = express()
 var todoList = require("./routes/todoList.js")
 var articleRouter = require("./routes/articles")
@@ -24,6 +26,16 @@ app.all("*", function (req, res, next) {
   }
 })
 
+app.use(
+  session({
+    secret: "session_secret",
+    saveUninitialized: true, //保存未初始化的session
+    resave: true, //保存seesion至存储
+    cookie: {
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24), //过期时间为一天
+    },
+  })
+)
 app.use(todoList)
 app.use(articleRouter)
 app.listen("7001", function () {
